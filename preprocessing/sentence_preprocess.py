@@ -19,13 +19,22 @@ import utils.helpers as UtilsHelp
 # MODEL_NAME = f"paraphrase-multilingual-MiniLM-L12-v2"
 # MODEL_ACCESS = f"sentence-transformers/{MODEL_NAME}"
 
+# Local path where the Tokenizer is stored
 TOKENIZER_PATH = str(Path.cwd() / 'tokenizer' / 'multiling-minilm-l12')
 
 class SentenceSegmentationBatch():
+    """
+    A class that receives a dataframe with text for each resume (or group) and 
+    divides it by sentences. Returning list and tokenization objects.
+
+    Attributes:
+        - x
+    """
     def __init__(self, candidates_info: List) -> None:
         """
         Initialize the dataframe including candidates and job description
-        information
+        information (separates each one - jd as the last element of the input 
+        list)
         """
         self.candidates = candidates_info
         self.candidates_df = UtilsHelp.build_dataframe(self.candidates[:-1])
@@ -49,12 +58,16 @@ class SentenceSegmentationBatch():
         self.tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_PATH)
 
     def get_sentences_list(self) -> List[str]:
+        """Returns the complete sentences list"""
         return self.sentences_list
 
     def get_idx_sentences_list(self) -> List[Tuple[int, str]]:
+        """Returns the list with the sentences and their respective id or 
+        group (resume which they belong)"""
         return self.idx_sentences_list
     
     def get_sorted_sentences(self) -> List[str]:
+        """Returns a list of sentences sorted from longer to shorter"""
         self.sentences_sorted = UtilsHelp.sort_sentences_by_length(
             self.sentences_list
         )
@@ -64,6 +77,7 @@ class SentenceSegmentationBatch():
         self, 
         batch_sentences: List[str]
         ) -> transformers.tokenization_utils_base.BatchEncoding:
+        """Returns a BatchEncoding object containing the sentences tokenized"""
 
         sentences_tokenized = self.tokenizer(
             batch_sentences,
@@ -76,6 +90,8 @@ class SentenceSegmentationBatch():
         return sentences_tokenized
     
     def get_jd_sorted_sentences_list(self) -> List[str]:
+        """Returns the list of sentences from the job description sorted by
+        their length"""
         self.jd_sentences_sorted = UtilsHelp.sort_sentences_by_length(
             self.jd_sentences_list
         )
