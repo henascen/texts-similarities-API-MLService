@@ -12,6 +12,9 @@ spacy = "^3.2.4"
 scikit-learn = "^1.0.2"
 onnxruntime = "^1.11.0"
 onnx = "^1.11.0"
+bentoml = "1.2.0"
+starlette = "<0.25.0"
+pydantic = "2.0.0"
 
 [tool.poetry.dev-dependencies]
 

@@ -1,4 +1,4 @@
-service: "service.py:svc"           # A convention for locating your service: <YOUR_SERVICE_PY>:<YOUR_SERVICE_ANNOTATION>
+service: "new_service:SentembedService"           # A convention for locating your service: <YOUR_SERVICE_PY>:<YOUR_SERVICE_ANNOTATION>
 description: "file: ./README.md"
 labels:
     owner: artemis-h

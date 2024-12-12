@@ -1,9 +1,12 @@
-from xml.sax.xmlreader import IncrementalParser
-import requests
 import pandas as pd
+import bentoml
+
+import requests
 from pathlib import Path
 
-PICKLE_PATH = Path.cwd() / 'testing_service' / 'java-senten-dataset-long-spacy.pkl'
+PICKLE_PATH = (
+    Path.cwd() / 'testing_service' / 'java-senten-dataset-long-spacy.pkl'
+)
 
 java_df = pd.read_pickle(PICKLE_PATH)
 
@@ -16,7 +19,11 @@ java_df.rename(columns={
 )
 
 sending_info = java_df.to_dict('records')
-print(sending_info[0])
+# print(sending_info[0])
 
-res = requests.post("http://127.0.0.1:3000/embedding", json=sending_info)
-print(res.text)
+client = bentoml.SyncHTTPClient("http://localhost:3000")
+
+NUMBER_OF_FILES = 10
+
+response = client.similarity(input_list=sending_info[:NUMBER_OF_FILES])
+print(response)

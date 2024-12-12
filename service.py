@@ -12,9 +12,12 @@ BATCH_SIZE = 16
 
 
 # Loading model as a runner
-sentembed_runner = bentoml.onnx.load_runner(
+# sentembed_runner = bentoml.onnx.load_runner(
+#     "onnx_sentembed_model:latest"
+# )
+sentembed_runner = bentoml.models.get(
     "onnx_sentembed_model:latest"
-)
+).to_runner()
 
 # Instantiating the runner Service
 svc = bentoml.Service(

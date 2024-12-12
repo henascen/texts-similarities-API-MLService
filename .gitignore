@@ -1,3 +1,6 @@
-/model
-/xx_sent_ud_sm-3.2.0
+/model/*
+/xx_sent_ud_sm-3.2.0/*
 /__pycache__
+*.zip
+*/__pycache__
+*/java-senten-dataset-long-spacy.pkl
